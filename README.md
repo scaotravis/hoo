@@ -5,7 +5,7 @@ Horizon of Observation rENA Model for Multimodal Data Analysis
 To this repository in R as a package, run the following commands: 
 ```{r}
 install.packages("devtools")
-devtools::install_github("scaotravis/hoo")
+devtools::install_github("scaotravis/hoo@v3.0")
 require(hoo)
 ```
 
