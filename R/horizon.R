@@ -4,26 +4,27 @@
 #' @param data              The original data containing the multimodal data (input a data frame or a data table)
 #' @param Units             ENA Units used on the original data (need to input a character string or a vector of character strings)
 #' @param Conversation      ENA Conversations within the original data (need to input a character string or a vector of character strings)
-#' @param dataModeCol       Name of the column where the types of multimodal data is stored (need to input a character string)
-#' @param usersCol          Name of the column where usernames or userid (something to distinguish players in the game) is stored (need to input a character string)
 #' @param Codes             Big C Codes used in the original data (need to input a character string or a vector of character strings)
-#' @param windowSize        Size of the moving stanza window, for looking backwards (need to input a numeric value; for whole conversation, input 1)
+#' @param dataModeCol       Name of the column where the types of multimodal data is stored (need to input a character string)
 #' @param modeObserve       Name of the mode of data where other players can observe their actions (need to input a character string or a vector of character strings)
+#' @param usersCol          Name of the column where usernames or userid (something to distinguish players in the game) is stored (need to input a character string)
+#' @param windowSize        Size of the moving stanza window, for looking backwards (need to input a numeric value; for whole conversation, input 1)
 #' @return     a data frame containing the adjacency vectors of each ENA Units within your data
 #' @export
 #' @examples
 #' adj = horizon(data = mock, 
 #'               Units = c("site", "userName"), 
 #'               Conversation = c("site"), 
-#'               dataModeCol = "data", usersCol = "userName", 
 #'               Codes = c("Code1", "Code2", "Code3", "Code4"), 
-#'               windowSize = 4, 
-#'               modeObserve = "chat")
+#'               dataModeCol = "data", 
+#'               modeObserve = "chat", 
+#'               usersCol = "userName", 
+#'               windowSize = 4)
 #'
-horizon = function(data, Units, Conversation, 
-                   dataModeCol, usersCol, Codes, 
-                   windowSize, 
-                   modeObserve)
+horizon = function(data, Units, Conversation, Codes, 
+                   dataModeCol, modeObserve, 
+                   usersCol, 
+                   windowSize)
 {
   data = as.data.frame(data)
   if (all(Units %in% colnames(data)) == T) {
