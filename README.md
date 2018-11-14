@@ -1,6 +1,11 @@
 # hoo
 Horizon of Observation rENA Model for Multimodal Data Analysis
 
+* [What is hoo?](#what-is-hoo)
+* [Install hoo in R](#install-hoo-in-r)
+* [What's new](#whats-new)
+* [Upcoming features](#upcoming-features)
+
 ## What is hoo?
 hoo is an R package used for multimodal data analysis. It is used alongside [rENA](https://cran.r-project.org/web/packages/rENA/index.html). 
 
