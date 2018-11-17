@@ -24,8 +24,8 @@ require(hoo)
 ## What's new: 
 
 *Version 3.1*: 
-* Include function `hoo.accumulate.data` to direct generate ENA accumulated model for ENA set creation. 
-* Reordered some arguments for more logical ordering. 
+* Include function `hoo.accumulate.data` to directly generate ENA accumulated model for ENA set creation. 
+* Reordered some arguments for a more logical ordering. 
 
 *Version 3.0*: 
 
