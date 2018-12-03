@@ -23,11 +23,11 @@ require(hoo)
 
 ## What's new: 
 
-*Version 3.1*: 
+*Version 3.1* (November 14, 2018): 
 * Included function `hoo.accumulate.data` to directly generate ENA accumulated model for ENA set creation. 
 * Reordered some arguments for a more logical ordering. 
 
-*Version 3.0*: 
+*Version 3.0* (November 11, 2018): 
 
 * Included dataset `mock` for testing and example demonstration.
 * `windowSize` for whole conversation data now takes value 1 (uses the same standard as `rENA`).
