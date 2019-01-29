@@ -12,19 +12,19 @@
 #' @return     a data frame containing the adjacency vectors of each ENA Units within your data
 #' @export
 #' @examples
-#' adj = horizon(data = mock, 
-#'               Units = c("site", "userName"), 
-#'               Conversation = c("site"), 
-#'               Codes = c("Code1", "Code2", "Code3", "Code4"), 
-#'               dataModeCol = "data", 
-#'               modeObserve = "chat", 
-#'               usersCol = "userName", 
-#'               windowSize = 4)
+#' adj = hoo.horizon(data = mock,
+#'                   Units = c("site", "userName"),
+#'                   Conversation = c("site"),
+#'                   Codes = c("Code1", "Code2", "Code3", "Code4"),
+#'                   dataModeCol = "data",
+#'                   modeObserve = "chat",
+#'                   usersCol = "userName",
+#'                   windowSize = 4)
 #'
-horizon = function(data, Units, Conversation, Codes, 
-                   dataModeCol, modeObserve, 
-                   usersCol, 
-                   windowSize)
+hoo.horizon = function(data, Units, Conversation, Codes,
+                       dataModeCol, modeObserve,
+                       usersCol,
+                       windowSize)
 {
   data = as.data.frame(data)
   if (all(Units %in% colnames(data)) == T) {
