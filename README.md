@@ -17,7 +17,7 @@ For more on how to interpret ENA models and networks, consult [Epistemic Analyti
 To install this repository in R as a package, run the following commands: 
 ```{r}
 install.packages("devtools")
-devtools::install_github("scaotravis/hoo@v3.1")
+devtools::install_github("scaotravis/hoo@v3.2")
 require(hoo)
 ```
 
