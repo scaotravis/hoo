@@ -17,11 +17,14 @@ For more on how to interpret ENA models and networks, consult [Epistemic Analyti
 To install this repository in R as a package, run the following commands: 
 ```{r}
 install.packages("devtools")
-devtools::install_github("scaotravis/hoo@v3.1")
+devtools::install_github("scaotravis/hoo@v3.2")
 require(hoo)
 ```
 
 ## What's new: 
+
+*Verison 3.2* (January 29, 2019): 
+* Now, all methods from `hoo` comes with prefix `hoo.`, which helps you distinguish methods called by hoo class. 
 
 *Version 3.1* (November 14, 2018): 
 * Included function `hoo.accumulate.data` to directly generate ENA accumulated model for ENA set creation. 
