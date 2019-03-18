@@ -10,11 +10,11 @@ Horizon of Observation rENA Model for Multimodal Data Analysis
 ## What is hoo?
 hoo is an R package used for multimodal data analysis. It is used alongside [rENA](https://cran.r-project.org/web/packages/rENA/index.html).
 
-hoo will create an appropriate ENA accumulated model that can be used by rENA to create ENA set; afterwards, you can use rENA plotting functions to generate points and network plots to analyze connections between players in the multimodal data.
+hoo creates an appropriate ENA accumulated model that can be used by rENA to produce ENA set. You can call rENA plotting functions on such ENA set to generate points and network plots to analyze connections between player interactions.
 
-For more on how to interpret ENA models and networks, consult [Epistemic Analytics Lab](http://www.epistemicanalytics.org/) at University of Wisconsin-Madison.
+For more on how to interpret ENA model and plotted network, consult [Epistemic Analytics Lab](http://www.epistemicanalytics.org/) at University of Wisconsin-Madison.
 
-## Install hoo in R:
+## Install hoo in R
 To install this repository in R as a package, run the following commands:
 ```{r}
 install.packages("devtools")
@@ -22,7 +22,7 @@ devtools::install_github("scaotravis/hoo@v3.2")
 require(hoo)
 ```
 
-## What's new:
+## What's new
 
 *Verison 3.2* (January 29, 2019):
 * Now, all methods from `hoo` comes with prefix `hoo.`, which helps you distinguish methods called by hoo class.
@@ -36,8 +36,8 @@ require(hoo)
 * Included dataset `mock` for testing and example demonstration.
 * `windowSize` for whole conversation data now takes value 1 (uses the same standard as rENA).
 
-## Upcoming features:
+## Upcoming features
 
-* ~~Directly generate appropriate ENA accumulated model for ENA set creation.~~ **(Now available in v3.1)**
+* ~~Directly generate appropriate ENA accumulated model for ENA set creation.~~ **(Available since v3.1)**
 * Use type `data.table` on dataset to increase performance.
 * Consider C or Python version of `hoo` to increase loop performance.
