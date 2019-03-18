@@ -25,7 +25,7 @@ require(hoo)
 ## What's new
 
 *Verison 3.2* (January 29, 2019):
-* Now, all methods from `hoo` comes with prefix `hoo.`, which helps you distinguish methods called by hoo class.
+* Now, all methods from hoo comes with prefix `hoo.`, which helps you distinguish methods called by hoo class.
 
 *Version 3.1* (November 14, 2018):
 * Included function `hoo.accumulate.data` to directly generate ENA accumulated model for ENA set creation.
