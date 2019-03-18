@@ -40,4 +40,4 @@ require(hoo)
 
 * ~~Directly generate appropriate ENA accumulated model for ENA set creation.~~ **(Available since v3.1)**
 * Use type `data.table` on dataset to increase performance.
-* Consider C or Python version of `hoo` to increase loop performance.
+* Consider C or Python version of hoo to increase loop performance.
