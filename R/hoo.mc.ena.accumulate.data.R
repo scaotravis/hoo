@@ -49,11 +49,11 @@ hoo.mc.ena.accumulate.data = function(data, Units, Conversation, Codes,
                            windowSize = windowSize)
   hoo_adj_ordered = hoo_adj[order(match(hoo_adj$Group.1, 
                                         ena_accum$adjacency.vectors.raw$ENA_UNIT)), ]
-  rownames(hoo_adj_ordered) = 1:nrow(hoo_adj_ordered)
-  ena_accum$adjacency.vectors.raw[, (length(Units) + 2):(ncol(ena_accum$adjacency.vectors.raw) - 1)] = 
+  rownames(hoo_adj_ordered) = seq_len(nrow(hoo_adj_ordered))
+  ena_accum$adjacency.vectors.raw[, (length(Units) + 1):(ncol(ena_accum$adjacency.vectors.raw) - 1)] = 
     hoo_adj_ordered[, 2:(ncol(hoo_adj_ordered))]
   ena_accum$adjacency.vectors = 
-    ena_accum$adjacency.vectors.raw[, (length(Units) + 2):(ncol(ena_accum$adjacency.vectors.raw) - 1)]
+    ena_accum$adjacency.vectors.raw[, (length(Units) + 1):(ncol(ena_accum$adjacency.vectors.raw) - 1)]
   return(ena_accum)
   
 }
