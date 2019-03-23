@@ -18,17 +18,22 @@ For more on how to interpret ENA model and plotted network, consult [Epistemic A
 To install this repository in R as a package, run the following commands:
 ```{r}
 install.packages("devtools")
-devtools::install_github("scaotravis/hoo@v3.2")
+devtools::install_github("scaotravis/hoo@v3.3")
 require(hoo)
 ```
 
 ## What's new
 
+*Version 3.3* (March 23, 2019): 
+* Cleaned up redundant codes
+* Included `hoo.mc.horizon()` and `hoo.mc.ena.accumulate.data()` that utilizes `parallel` package's `mclapply()` function to speed up performance, if your computer supports multi-core computation
+* Attempted to increase performance through converting data type to `data.table` with no avail (see more in [Upcoming features](#upcoming-features) section)
+
 *Verison 3.2* (January 29, 2019):
 * Now, all methods from hoo comes with prefix `hoo.`, which helps you distinguish methods called by hoo class.
 
 *Version 3.1* (November 14, 2018):
-* Included function `hoo.ena.accumulate.data` to directly generate ENA accumulated model for ENA set creation.
+* Included function `hoo.ena.accumulate.data()` to directly generate ENA accumulated model for ENA set creation.
 * Reordered some arguments for a more logical ordering.
 
 *Version 3.0* (November 11, 2018):
@@ -39,5 +44,5 @@ require(hoo)
 ## Upcoming features
 
 * ~~Directly generate appropriate ENA accumulated model for ENA set creation.~~ **(Available since v3.1)**
-* Use type `data.table` on dataset to increase performance.
-* Consider C or Python version of hoo to increase loop performance.
+* ~~Use type `data.table` on dataset to increase performance.~~ (Testing in v3.3 shows that using `data.table` along with `lapply()` actually slows performance. The current way `hoo.horizon()` works is by filling in a fixed-size `data.frame` with the computed adjacency vector, which is already of great performance. Hence, further performance improvement will rely on writing core looping codes in C or other high-performance compiled language)
+* Consider C version of hoo to increase loop performance.
