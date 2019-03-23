@@ -2,7 +2,7 @@
 % Please edit documentation in R/hoo.mc.horizon.R
 \name{hoo.mc.horizon}
 \alias{hoo.mc.horizon}
-\title{Horizon of Observation Analysis for Multimodal Data}
+\title{Horizon of Observation Analysis for Multimodal Data, Utilizing Multicore Computation}
 \usage{
 hoo.mc.horizon(data, Units, Conversation, Codes, dataModeCol, modeObserve,
   usersCol, windowSize)
@@ -32,7 +32,7 @@ a data frame containing the adjacency vectors of each ENA Units within data
 \description{
 For multimodal data, players might not fully observe other player's actions. This function takes
 such factor into account and return the adjacency matrix for the actions players can observe.
-Specifically, this function utilizes parallel package's mclapply() function. If your computer 
+Specifically, this function utilizes `parallel` package's mclapply() function. If your computer 
 supports multi-core computation, then using hoo.mc.horizon() could speed up your computation.
 }
 \examples{
