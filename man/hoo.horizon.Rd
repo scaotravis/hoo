@@ -5,30 +5,33 @@
 \title{Horizon of Observation Analysis for Multimodal Data}
 \usage{
 hoo.horizon(data, Units, Conversation, Codes, dataModeCol, modeObserve,
-  usersCol, windowSize)
+  usersCol, windowSizeBack)
 }
 \arguments{
-\item{data}{The original data containing the multimodal data (input a data frame or a data table)}
+\item{data}{Multimodal data.frame or data.table}
 
-\item{Units}{ENA Units used on the original data (need to input a character string or a vector of character strings)}
+\item{Units}{A vector of Strings describing the Units for ENA model}
 
-\item{Conversation}{ENA Conversations within the original data (need to input a character string or a vector of character strings)}
+\item{Conversation}{A vector of Strings describing the Conversations took place in ENA model}
 
-\item{Codes}{Big C Codes used in the original data (need to input a character string or a vector of character strings)}
+\item{Codes}{A vector of Strings entailing the big C Codes of interest for ENA
+analysis}
 
-\item{dataModeCol}{Name of the column where the types of multimodal data is stored (need to input a character string)}
+\item{dataModeCol}{Name of the column where the types of multimodal data is stored}
 
-\item{modeObserve}{Name of the mode of data where other players can observe their actions (need to input a character string or a vector of character strings)}
+\item{modeObserve}{Modes of data where actions are observable to all players}
 
-\item{usersCol}{Name of the column where usernames or userid (something to distinguish players in the game) is stored (need to input a character string)}
+\item{usersCol}{Name of the column entailing the unique user tracking info}
 
-\item{windowSize}{Size of the moving stanza window, for looking backwards (need to input a numeric value; for whole conversation, input 1)}
+\item{windowSizeBack}{Size of the moving stanza window, for looking backwards (for whole
+conversation, input 1)}
 }
 \value{
-a data frame containing the adjacency vectors of each ENA Units within your data
+a data frame containing the adjacency vectors of each ENA Units within data
 }
 \description{
-For multimodal data, players might not fully observe other player's actions. This function takes such factor into account and return the adjacency matrix for the actions players can observe.
+For multimodal data, players might not fully observe other player's actions. This function takes
+such factor into account and return the adjacency matrix for the actions players can observe.
 }
 \examples{
 adj = hoo.horizon(data = mock,
@@ -38,6 +41,6 @@ adj = hoo.horizon(data = mock,
                   dataModeCol = "data",
                   modeObserve = "chat",
                   usersCol = "userName",
-                  windowSize = 4)
+                  windowSizeBack = 4)
 
 }
