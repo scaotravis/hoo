@@ -27,9 +27,8 @@
 hoo.horizon = function(data, Units, Conversation, Codes,
                        dataModeCol, modeObserve,
                        usersCol,
-                       windowSizeBack)
+                       windowSize)
 {
-  
   data = as.data.frame(data)
   if (all(Units %in% colnames(data)) == T) {
     if (length(Units) == 1) {
@@ -45,7 +44,7 @@ hoo.horizon = function(data, Units, Conversation, Codes,
       }
     }
   } else {
-    stop("ERROR: The Units specified are not valid. Check your spelling if needed.")
+    stop("ERROR: The Units specified are not valid. At least one Unit is needed. Check your spelling if needed.")
   }
   if (all(Conversation %in% colnames(data)) == T) {
     levelsWithinConv = list()
@@ -56,73 +55,64 @@ hoo.horizon = function(data, Units, Conversation, Codes,
     }
     combinations = data.frame(lapply(combinations, as.character), stringsAsFactors = F)
   } else {
-    stop("ERROR: The Conversation specified are not valid. Check your spelling if needed.")
+    stop("ERROR: The Conversation specified are not valid. At least one Conversation is needed. Check your spelling if needed.")
   }
-  
-  data$rowid = 0
+  data$rowid = 1:nrow(data)
   dataSubset = data[, c("rowid", "enaunits", usersCol, dataModeCol, Codes)]
-  dataSubset = data.table::data.table(dataSubset)
-  adj = data.table::data.table()
-  rowidToAdd = 0
-  
-  for (r in seq_len(nrow(combinations))) {
+  adjDF = data.frame(matrix(nrow = 0, ncol = choose(n = length(Codes), k = 2) + 1))
+  for (r in seq_len(nrow(combinations))) { # Account for Conversations
+    rowsCriteria = list()
     for (c in seq_len(length(Conversation))) {
-      rowsWithinConversation = which(data[[Conversation[c]]] %in% combinations[r, c])
-      if (length(rowsWithinConversation) != 0) {
-        dataConvSubset = dataSubset[rowsWithinConversation, ]
-        dataConvSubset$rowid = seq_len(nrow(dataConvSubset))
-        adjRow = dataConvSubset[, {
-          unitsWithin = as.vector(t(.SD[, enaunits]))
-          eachRow = lapply(seq_len(length(unitsWithin)), function(i) {
-            personSubset = .SD[which(.SD[, enaunits] == unitsWithin[i] 
-                                     | .SD[[dataModeCol]] %in% modeObserve)]
-            currentLine = base::which(personSubset$rowid == i)
-            currentENAUnit = personSubset[currentLine, enaunits]
-            window = windowSizeBack
-            while (currentLine - window < 0) {
-              window = window - 1
-            }
-            startRow = currentLine - window + 1
-            endRow = currentLine
-            adjRowsToCalculate = personSubset[startRow:endRow, 5:ncol(personSubset), with=F]
-            # Calculate the cross product including this row
-            currentRowColSums = as.vector(colSums(adjRowsToCalculate))
-            currentRowCrossProd = as.matrix(tcrossprod(currentRowColSums))
-            currentRowConnections = currentRowCrossProd[col(currentRowCrossProd) 
-                                                        - row(currentRowCrossProd) > 0]
-            # Calculate the cross product excluding this row
-            if (windowSizeBack != 1) {
-              if (nrow(adjRowsToCalculate) - 1 != 0) {
-                endRowPrev = nrow(adjRowsToCalculate) - 1
-                previousRowColSums = as.vector(colSums(adjRowsToCalculate[1:endRowPrev]))
-                previousRowCrossProd = as.matrix(tcrossprod(previousRowColSums))
-                previousRowConnections = previousRowCrossProd[col(previousRowCrossProd) 
-                                                              - row(previousRowCrossProd) > 0]
-              } else {
-                previousRowConnections = vector(mode = "numeric", 
-                                                length = choose(n = length(Codes), k = 2))
-              }
-            } else {
-              previousRowConnections = vector(mode = "numeric", 
-                                              length = choose(n = length(Codes), k = 2))
-            }
-            # Calculate the adj vector of this row
-            adjVector = currentRowConnections - previousRowConnections
-            append(currentENAUnit, adjVector, )
-          })
-          binded = data.table::data.table(t(data.table::rbindlist(list(eachRow))))
-          cols = colnames(binded)
-          cols = cols[2:length(cols)]
-          binded[, (cols) := lapply(.SD, as.numeric), .SDcols = cols]
-        }]
+      rowsCriteria[[c]] = which(data[[Conversation[c]]] %in% combinations[r, c])
+      if (c == 1) {
+        rowsWithinConversation = rowsCriteria[[c]]
       } else {
-        adjRow = data.table::data.table()
+        rowsWithinConversation = base::intersect(rowsWithinConversation, rowsCriteria[[c]])
       }
-      adj = data.table::rbindlist(list(adj, adjRow))
+    }
+    if (length(rowsWithinConversation) == 0) {
+      next
+    } else {
+      dataConvSubset = dataSubset[rowsWithinConversation, ]
+      dataConvSubset$rowid = 1:nrow(dataConvSubset)
+      adjDFWithinOneConv = data.frame(matrix(nrow = nrow(dataConvSubset), ncol = choose(n = length(Codes), k = 2) + 1))
+      adjDFWithinOneConv[, 1] = dataConvSubset[, "enaunits"]
+      for (i in seq_len(nrow(dataConvSubset))) {
+        # Obtain the correct stanza window for adj vector calculation
+        person = dataConvSubset[i, usersCol]
+        rowsSubset = dataConvSubset[dataConvSubset[[usersCol]] == person | dataConvSubset[[dataModeCol]] %in% modeObserve, ]
+        currentLine = which(rowsSubset$rowid == i)
+        window = windowSize
+        while (currentLine - window < 0) {
+          window = window - 1
+        }
+        startRow = currentLine - window + 1
+        endRow = currentLine
+        adjSubset = rowsSubset[startRow:endRow, 5:ncol(rowsSubset)]
+        # Calculate the cross product including this row
+        currentRowColSums = as.vector(colSums(adjSubset))
+        currentRowCrossProd = as.matrix(tcrossprod(currentRowColSums))
+        currentRowConnections = currentRowCrossProd[col(currentRowCrossProd) - row(currentRowCrossProd) > 0]
+        # Calculate the cross product excluding this row
+        if (windowSize != 1) {
+          if (nrow(adjSubset) - 1 != 0) {
+            endRowPrev = nrow(adjSubset) - 1
+            previousRowColSums = as.vector(colSums(adjSubset[1:endRowPrev, ]))
+            previousRowCrossProd = as.matrix(tcrossprod(previousRowColSums))
+            previousRowConnections = previousRowCrossProd[col(previousRowCrossProd) - row(previousRowCrossProd) > 0]
+          } else {
+            previousRowConnections = vector(mode = "numeric", length = choose(n = length(Codes), k = 2))
+          }
+        } else {
+          previousRowConnections = vector(mode = "numeric", length = choose(n = length(Codes), k = 2))
+        }
+        # Calculate the adj vector of this row, and assign it to the data frame that stores adj vectors
+        adjVector = currentRowConnections - previousRowConnections
+        adjDFWithinOneConv[i, 2:(choose(n = length(Codes), k = 2) + 1)] = adjVector
+      }
+      adjDF = rbind(adjDF, adjDFWithinOneConv)
     }
   }
-  
-  adjAccum = stats::aggregate(x = adj[, -1], by = list(adj$V1), FUN = sum)
-  return(adjAccum)
-  
+  adjDFAccum = stats::aggregate(x = adjDF[, -1], by = list(adjDF$X1), FUN = sum)
+  return(adjDFAccum)
 }
