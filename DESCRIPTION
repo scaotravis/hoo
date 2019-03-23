@@ -1,13 +1,12 @@
 Package: hoo
 Title: Calculate adjacency vectors using horizon of observation model
-Version: 4.0
+Version: 3.3
 Authors@R: person("Shengyang", "Cao", email = "scaotravis@gmail.com", role = c("aut", "cre"))
 Description: "hoo" generates adjacency vector and ENA accumulated data environment suitable for multimodal analysis under Hutchins' horizon of observation model. This model takes player perspective into consideration: in an interactive environment, players might observe some types of actions of the others, but not others. This package only seeks for connections that can be observed by each individual user, and generate ENA readable environment for ENA analysis (see package "rENA" for more information on how connections are built and interpreted).
 Imports:
     tidyr,
     stats,
-    rENA,
-    data.table
+    rENA
 Depends: R (>= 3.5.0)
 License: MIT + file LICENSE
 Encoding: UTF-8

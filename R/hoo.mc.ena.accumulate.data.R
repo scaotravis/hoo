@@ -2,6 +2,10 @@
 #'
 #' For multimodal data, this function creates the correct rENA accumulated model that can be used 
 #' to create rENA sets for analysis.
+#' 
+#' Specifically, this function utilizes parallel package's mclapply() function. If your computer 
+#' supports multi-core computation, then using hoo.mc.ena.accumulate.data() could speed up your 
+#' computation. 
 #' @param data              Multimodal data.frame or data.table
 #' @param Units             A vector of Strings describing the Units for ENA model
 #' @param Conversation      A vector of Strings describing the Conversations took place in ENA model
@@ -16,19 +20,19 @@
 #' @return     a data frame containing the adjacency vectors of each ENA Units within data
 #' @export
 #' @examples
-#' accum = hoo.ena.accumulate.data(data = mock,
-#'                                 Units = c("site", "userName"),
-#'                                 Conversation = c("site"),
-#'                                 Codes = c("Code1", "Code2", "Code3", "Code4"),
-#'                                 dataModeCol = "data",
-#'                                 modeObserve = "chat",
-#'                                 usersCol = "userName",
-#'                                 windowSize = 4)
+#' accum = hoo.mc.ena.accumulate.data(data = mock,
+#'                                    Units = c("site", "userName"),
+#'                                    Conversation = c("site"),
+#'                                    Codes = c("Code1", "Code2", "Code3", "Code4"),
+#'                                    dataModeCol = "data",
+#'                                    modeObserve = "chat",
+#'                                    usersCol = "userName",
+#'                                    windowSize = 4)
 #'
-hoo.ena.accumulate.data = function(data, Units, Conversation, Codes,
-                                   dataModeCol, modeObserve,
-                                   usersCol,
-                                   windowSize, ...)
+hoo.mc.ena.accumulate.data = function(data, Units, Conversation, Codes,
+                                      dataModeCol, modeObserve,
+                                      usersCol,
+                                      windowSize, ...)
 {
   
   data = as.data.frame(data)
@@ -38,11 +42,11 @@ hoo.ena.accumulate.data = function(data, Units, Conversation, Codes,
                                         codes = data.frame(data[, Codes]),
                                         window.size.back = windowSize, ...)
   #options(warn = 0)
-  hoo_adj = hoo.horizon(data = data,
-                        Units = Units, Conversation = Conversation, Codes = Codes,
-                        dataModeCol = dataModeCol, modeObserve = modeObserve,
-                        usersCol = usersCol,
-                        windowSize = windowSize)
+  hoo_adj = hoo.mc.horizon(data = data,
+                           Units = Units, Conversation = Conversation, Codes = Codes,
+                           dataModeCol = dataModeCol, modeObserve = modeObserve,
+                           usersCol = usersCol,
+                           windowSize = windowSize)
   hoo_adj_ordered = hoo_adj[order(match(hoo_adj$Group.1, 
                                         ena_accum$adjacency.vectors.raw$ENA_UNIT)), ]
   rownames(hoo_adj_ordered) = 1:nrow(hoo_adj_ordered)

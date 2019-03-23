@@ -10,7 +10,7 @@
 #' @param dataModeCol       Name of the column where the types of multimodal data is stored
 #' @param modeObserve       Modes of data where actions are observable to all players
 #' @param usersCol          Name of the column entailing the unique user tracking info
-#' @param windowSizeBack    Size of the moving stanza window, for looking backwards (for whole
+#' @param windowSize        Size of the moving stanza window, for looking backwards (for whole
 #' conversation, input 1)
 #' @return     a data frame containing the adjacency vectors of each ENA Units within data
 #' @export
@@ -22,7 +22,7 @@
 #'                   dataModeCol = "data",
 #'                   modeObserve = "chat",
 #'                   usersCol = "userName",
-#'                   windowSizeBack = 4)
+#'                   windowSize = 4)
 #'
 hoo.horizon = function(data, Units, Conversation, Codes,
                        dataModeCol, modeObserve,
