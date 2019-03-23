@@ -1,11 +1,9 @@
 #' Create rENA Accumulated Model based on Horizon of Observation Algorithm
 #'
 #' For multimodal data, this function creates the correct rENA accumulated model that can be used 
-#' to create rENA sets for analysis.
-#' 
-#' Specifically, this function utilizes parallel package's mclapply() function. If your computer 
-#' supports multi-core computation, then using hoo.mc.ena.accumulate.data() could speed up your 
-#' computation. 
+#' to create rENA sets for analysis. Specifically, this function utilizes parallel package's 
+#' mclapply() function. If your computer supports multi-core computation, then using 
+#' hoo.mc.ena.accumulate.data() could speed up your computation. 
 #' @param data              Multimodal data.frame or data.table
 #' @param Units             A vector of Strings describing the Units for ENA model
 #' @param Conversation      A vector of Strings describing the Conversations took place in ENA model
