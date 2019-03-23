@@ -2,7 +2,7 @@
 #'
 #' For multimodal data, players might not fully observe other player's actions. This function takes
 #' such factor into account and return the adjacency matrix for the actions players can observe.
-#' Specifically, this function utilizes `parallel` package's mclapply() function. If your computer 
+#' Specifically, this function utilizes parallel package's mclapply() function. If your computer 
 #' supports multi-core computation, then using hoo.mc.horizon() could speed up your computation. 
 #' @param data              Multimodal data.frame or data.table
 #' @param Units             A vector of Strings describing the Units for ENA model
