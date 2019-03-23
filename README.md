@@ -26,7 +26,7 @@ require(hoo)
 
 *Version 3.3* (March 23, 2019): 
 * Cleaned up redundant codes
-* Included `hoo.mc.horizon()` and `hoo.mc.ena.accumulate.data()` that utilizes `parallel` package's `mclapply()` function to speed up performance, if your computer supports multi-core computation
+* Included `hoo.mc.horizon()` and `hoo.mc.ena.accumulate.data()` that utilize `parallel` package's `mclapply()` function to speed up performance, if your computer supports multi-core computation
 * Attempted to increase performance through converting data type to `data.table` with no avail (see more in [Upcoming features](#upcoming-features) section)
 
 *Verison 3.2* (January 29, 2019):
