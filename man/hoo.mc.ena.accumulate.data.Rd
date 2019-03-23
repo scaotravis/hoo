@@ -33,12 +33,9 @@ a data frame containing the adjacency vectors of each ENA Units within data
 }
 \description{
 For multimodal data, this function creates the correct rENA accumulated model that can be used 
-to create rENA sets for analysis.
-}
-\details{
-Specifically, this function utilizes parallel package's mclapply() function. If your computer 
-supports multi-core computation, then using hoo.mc.ena.accumulate.data() could speed up your 
-computation.
+to create rENA sets for analysis. Specifically, this function utilizes parallel package's 
+mclapply() function. If your computer supports multi-core computation, then using 
+hoo.mc.ena.accumulate.data() could speed up your computation.
 }
 \examples{
 accum = hoo.mc.ena.accumulate.data(data = mock,
