@@ -3,3 +3,4 @@
 export(hoo.ena.accumulate.data)
 export(hoo.horizon)
 export(hoo.horizon.DT)
+import(data.table)

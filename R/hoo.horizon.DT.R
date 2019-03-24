@@ -80,8 +80,8 @@ hoo.horizon.DT = function(data, Units, Conversation, Codes,
       people = dataConvSubset[[usersCol]]
       adjRow = dataConvSubset[, {
         eachRow = lapply(seq_len(length(people)), function(i) {
-          personSubset = .SD[.SD[[usersCol]] == people[i] 
-                             | .SD[[dataModeCol]] %in% modeObserve]
+          personSubset = dataConvSubset[dataConvSubset[[usersCol]] == people[i] 
+                                        | dataConvSubset[[dataModeCol]] %in% modeObserve]
           currentLine = base::which(personSubset$rowid == i)
           currentENAUnit = personSubset[currentLine, enaunits]
           window = windowSize
