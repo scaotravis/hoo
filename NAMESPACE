@@ -2,5 +2,4 @@
 
 export(hoo.ena.accumulate.data)
 export(hoo.horizon)
-export(hoo.mc.ena.accumulate.data)
-export(hoo.mc.horizon)
+export(hoo.horizon.DT)

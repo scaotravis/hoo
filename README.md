@@ -24,10 +24,11 @@ require(hoo)
 
 ## What's new
 
-*Version 3.3* (March 23, 2019): 
-* Cleaned up redundant codes
-* Included `hoo.mc.horizon()` and `hoo.mc.ena.accumulate.data()` that utilize `parallel` package's `mclapply()` function to speed up performance, if your computer supports multi-core computation
-* Attempted to increase performance through converting data type to `data.table` with no avail (see more in [Upcoming features](#upcoming-features) section)
+*Version 3.4* (March 24, 2019):
+* Cleaned up redundant codes.
+* Included `hoo.horizon.DT()` method that utilizes data.table structure and `lapply()` function in attempt to increase performance.
+
+~~*Version 3.3* (March 23, 2019)~~ (pulled on March 24 due to performance decrease)
 
 *Verison 3.2* (January 29, 2019):
 * Now, all methods from hoo comes with prefix `hoo.`, which helps you distinguish methods called by hoo class.
@@ -44,5 +45,5 @@ require(hoo)
 ## Upcoming features
 
 * ~~Directly generate appropriate ENA accumulated model for ENA set creation.~~ **(Available since v3.1)**
-* ~~Use type `data.table` on dataset to increase performance.~~ (Testing in v3.3 shows that using `data.table` along with `lapply()` actually slows performance. The current way `hoo.horizon()` works is by filling in a fixed-size `data.frame` with the computed adjacency vector, which is already of great performance. Hence, further performance improvement will rely on writing core looping codes in C or other high-performance compiled language)
+* ~~Use type data.table on dataset to increase performance.~~ (Prototype available in v3.4)
 * Consider C version of hoo to increase loop performance.

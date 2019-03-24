@@ -44,7 +44,7 @@ hoo.horizon = function(data, Units, Conversation, Codes,
       }
     }
   } else {
-    stop("ERROR: The Units specified are not valid. At least one Unit is needed. Check your spelling if needed.")
+    stop("ERROR: The Units specified are not valid. Check your spelling if needed.")
   }
   if (all(Conversation %in% colnames(data)) == T) {
     levelsWithinConv = list()
@@ -55,11 +55,13 @@ hoo.horizon = function(data, Units, Conversation, Codes,
     }
     combinations = data.frame(lapply(combinations, as.character), stringsAsFactors = F)
   } else {
-    stop("ERROR: The Conversation specified are not valid. At least one Conversation is needed. Check your spelling if needed.")
+    stop("ERROR: The Conversation specified are not valid. Check your spelling if needed.")
   }
-  data$rowid = 1:nrow(data)
+  
+  data$rowid = 0
   dataSubset = data[, c("rowid", "enaunits", usersCol, dataModeCol, Codes)]
   adjDF = data.frame(matrix(nrow = 0, ncol = choose(n = length(Codes), k = 2) + 1))
+  
   for (r in seq_len(nrow(combinations))) { # Account for Conversations
     rowsCriteria = list()
     for (c in seq_len(length(Conversation))) {
@@ -70,11 +72,9 @@ hoo.horizon = function(data, Units, Conversation, Codes,
         rowsWithinConversation = base::intersect(rowsWithinConversation, rowsCriteria[[c]])
       }
     }
-    if (length(rowsWithinConversation) == 0) {
-      next
-    } else {
+    if (length(rowsWithinConversation) != 0) {
       dataConvSubset = dataSubset[rowsWithinConversation, ]
-      dataConvSubset$rowid = 1:nrow(dataConvSubset)
+      dataConvSubset$rowid = seq_len(nrow(dataConvSubset))
       adjDFWithinOneConv = data.frame(matrix(nrow = nrow(dataConvSubset), ncol = choose(n = length(Codes), k = 2) + 1))
       adjDFWithinOneConv[, 1] = dataConvSubset[, "enaunits"]
       for (i in seq_len(nrow(dataConvSubset))) {

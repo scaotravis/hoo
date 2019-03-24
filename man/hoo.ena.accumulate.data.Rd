@@ -5,7 +5,7 @@
 \title{Create rENA Accumulated Model based on Horizon of Observation Algorithm}
 \usage{
 hoo.ena.accumulate.data(data, Units, Conversation, Codes, dataModeCol,
-  modeObserve, usersCol, windowSize, ...)
+  modeObserve, usersCol, windowSize, useDT = FALSE, ...)
 }
 \arguments{
 \item{data}{Multimodal data.frame or data.table}
@@ -25,6 +25,9 @@ analysis}
 
 \item{windowSize}{Size of the moving stanza window, for looking backwards (for whole 
 conversation, input 1)}
+
+\item{useDT}{Boolean parameter on whether to call hoo.horizon.DT() instead of 
+hoo.horizon(). Default to FALSE}
 
 \item{...}{Additional arguments to pass along to rENA ena.accumulate.data method}
 }

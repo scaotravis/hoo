@@ -12,6 +12,8 @@
 #' @param usersCol          Name of the column entailing the unique user tracking info
 #' @param windowSize        Size of the moving stanza window, for looking backwards (for whole 
 #' conversation, input 1)
+#' @param useDT             Boolean parameter on whether to call hoo.horizon.DT() instead of 
+#' hoo.horizon(). Default to FALSE
 #' @param ...               Additional arguments to pass along to rENA ena.accumulate.data method
 #' @return     a data frame containing the adjacency vectors of each ENA Units within data
 #' @export
@@ -28,21 +30,27 @@
 hoo.ena.accumulate.data = function(data, Units, Conversation, Codes,
                                    dataModeCol, modeObserve,
                                    usersCol,
-                                   windowSize, ...)
+                                   windowSize, 
+                                   useDT = FALSE, ...)
 {
-  
   data = as.data.frame(data)
-  #options(warn = -1) # used to suppress data.table warning coming from ena.accumulate.data()
   ena_accum = rENA::ena.accumulate.data(units = data.frame(data[, Units]),
                                         conversation = data.frame(data[, Conversation]),
                                         codes = data.frame(data[, Codes]),
                                         window.size.back = windowSize, ...)
-  #options(warn = 0)
-  hoo_adj = hoo.horizon(data = data,
-                        Units = Units, Conversation = Conversation, Codes = Codes,
-                        dataModeCol = dataModeCol, modeObserve = modeObserve,
-                        usersCol = usersCol,
-                        windowSize = windowSize)
+  if (useDT == F) {
+    hoo_adj = hoo.horizon(data = data,
+                          Units = Units, Conversation = Conversation, Codes = Codes,
+                          dataModeCol = dataModeCol, modeObserve = modeObserve,
+                          usersCol = usersCol,
+                          windowSize = windowSize)
+  } else {
+    hoo_adj = hoo.horizon.DT(data = data,
+                             Units = Units, Conversation = Conversation, Codes = Codes,
+                             dataModeCol = dataModeCol, modeObserve = modeObserve,
+                             usersCol = usersCol,
+                             windowSize = windowSize)
+  }
   hoo_adj_ordered = hoo_adj[order(match(hoo_adj$Group.1, 
                                         ena_accum$adjacency.vectors.raw$ENA_UNIT)), ]
   rownames(hoo_adj_ordered) = 1:nrow(hoo_adj_ordered)
@@ -51,5 +59,4 @@ hoo.ena.accumulate.data = function(data, Units, Conversation, Codes,
   ena_accum$adjacency.vectors = 
     ena_accum$adjacency.vectors.raw[, (length(Units) + 1):(ncol(ena_accum$adjacency.vectors.raw) - 1)]
   return(ena_accum)
-  
 }
