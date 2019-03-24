@@ -18,13 +18,13 @@ For more on how to interpret ENA model and plotted network, consult [Epistemic A
 To install this repository in R as a package, run the following commands:
 ```{r}
 install.packages("devtools")
-devtools::install_github("scaotravis/hoo@v3.4")
+devtools::install_github("scaotravis/hoo@v3.4.1")
 require(hoo)
 ```
 
 ## What's new
 
-*Version 3.4* (March 24, 2019):
+*Version 3.4.1* (March 24, 2019):
 * Cleaned up redundant codes.
 * Included `hoo.horizon.DT()` method that utilizes data.table structure and `lapply()` function in attempt to increase performance.
 
@@ -45,5 +45,5 @@ require(hoo)
 ## Upcoming features
 
 * ~~Directly generate appropriate ENA accumulated model for ENA set creation.~~ **(Available since v3.1)**
-* ~~Use type data.table on dataset to increase performance.~~ **(Prototype available in v3.4)**
+* ~~Use type data.table on dataset to increase performance.~~ **(Prototype available in v3.4.1)**
 * Consider C version of hoo to increase loop performance.
