@@ -18,7 +18,7 @@ For more on how to interpret ENA model and plotted network, consult [Epistemic A
 To install this repository in R as a package, run the following commands:
 ```{r}
 install.packages("devtools")
-devtools::install_github("scaotravis/hoo@v3.3")
+devtools::install_github("scaotravis/hoo@v3.4")
 require(hoo)
 ```
 
@@ -45,5 +45,5 @@ require(hoo)
 ## Upcoming features
 
 * ~~Directly generate appropriate ENA accumulated model for ENA set creation.~~ **(Available since v3.1)**
-* ~~Use type data.table on dataset to increase performance.~~ (Prototype available in v3.4)
+* ~~Use type data.table on dataset to increase performance.~~ **(Prototype available in v3.4)**
 * Consider C version of hoo to increase loop performance.
