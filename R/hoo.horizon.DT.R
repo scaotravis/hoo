@@ -116,7 +116,7 @@ hoo.horizon.DT = function(data, Units, Conversation, Codes,
           adjVector = currentRowConnections - previousRowConnections
           c(currentENAUnit, adjVector)
         })
-        data.frame(t(data.table::rbindlist(list(eachRow))))
+        data.table::data.table(t(data.table::rbindlist(list(eachRow))))
       }]
       adj = data.table::rbindlist(list(adj, adjRow))
     }
@@ -128,3 +128,4 @@ hoo.horizon.DT = function(data, Units, Conversation, Codes,
   adjAccum = stats::aggregate(x = adj[, -1], by = list(adj$V1), FUN = sum)
   return(adjAccum)
 }
+
