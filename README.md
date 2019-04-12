@@ -24,6 +24,9 @@ require(hoo)
 
 ## What's new
 
+*Version 3.4.3* (April 12, 2019): 
+* When replacing the adjacency vectors created by `rENA::ena.accumulate.data()` with hoo generated adjacency vectors, hoo now uses a more robust `grepl()` assisted subset method to avoid erroneous replacement.  
+
 *Version 3.4.2* (March 24, 2019):
 * Cleaned up redundant codes.
 * Included `hoo.horizon.DT()` method that utilizes data.table structure and `lapply()` function in attempt to increase performance.
