@@ -51,12 +51,16 @@ hoo.ena.accumulate.data = function(data, Units, Conversation, Codes,
                              usersCol = usersCol,
                              windowSize = windowSize)
   }
-  hoo_adj_ordered = hoo_adj[order(match(hoo_adj$Group.1, 
-                                        ena_accum$adjacency.vectors.raw$ENA_UNIT)), ]
+  hoo_adj_ordered = data.frame(hoo_adj[order(match(hoo_adj$Group.1, 
+                                                   ena_accum$adjacency.vectors.raw$ENA_UNIT)), ])
   rownames(hoo_adj_ordered) = 1:nrow(hoo_adj_ordered)
-  ena_accum$adjacency.vectors.raw[, (length(Units) + 1):(ncol(ena_accum$adjacency.vectors.raw) - 1)] = 
+  colsOfAdjVecsRaw = which(grepl(colnames(ena_accum$adjacency.vectors.raw), 
+                                 pattern = "adjacency.code", ignore.case = T))
+  ena_accum$adjacency.vectors.raw = data.frame(ena_accum$adjacency.vectors.raw)
+  ena_accum$adjacency.vectors.raw[, colsOfAdjVecsRaw] = 
     hoo_adj_ordered[, 2:(ncol(hoo_adj_ordered))]
-  ena_accum$adjacency.vectors = 
-    ena_accum$adjacency.vectors.raw[, (length(Units) + 1):(ncol(ena_accum$adjacency.vectors.raw) - 1)]
+  ena_accum$adjacency.vectors = ena_accum$adjacency.vectors.raw[, colsOfAdjVecsRaw]
+  ena_accum$adjacency.vectors.raw = data.table::data.table(ena_accum$adjacency.vectors.raw)
+  ena_accum$adjacency.vectors = data.table::data.table(ena_accum$adjacency.vectors)
   return(ena_accum)
 }
