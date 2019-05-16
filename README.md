@@ -18,11 +18,14 @@ For more on how to interpret ENA model and plotted network, consult [Epistemic A
 To install this repository in R as a package, run the following commands:
 ```{r}
 install.packages("devtools")
-devtools::install_github("scaotravis/hoo@v3.4.3")
+devtools::install_github("scaotravis/hoo@v3.4.4")
 require(hoo)
 ```
 
 ## What's new
+
+*Version 3.4.4* (May 15, 2019): 
+* Fixed a wording issue in `hoo.ena.accumulate.data()` help document. 
 
 *Version 3.4.3* (April 12, 2019): 
 * When replacing the adjacency vectors created by `rENA::ena.accumulate.data()` with hoo generated adjacency vectors, hoo now uses a more robust `grepl()` assisted subset method to avoid erroneous replacement.  
