@@ -15,7 +15,8 @@
 #' @param useDT             Boolean parameter on whether to call hoo.horizon.DT() instead of 
 #' hoo.horizon(). Default to FALSE
 #' @param ...               Additional arguments to pass along to rENA ena.accumulate.data method
-#' @return     a data frame containing the adjacency vectors of each ENA Units within data
+#' @return     an environment containing all relevant ENA accumulated model information to build 
+#' ENA set upon
 #' @export
 #' @examples
 #' accum = hoo.ena.accumulate.data(data = mock,

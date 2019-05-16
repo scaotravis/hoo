@@ -32,7 +32,8 @@ hoo.horizon(). Default to FALSE}
 \item{...}{Additional arguments to pass along to rENA ena.accumulate.data method}
 }
 \value{
-a data frame containing the adjacency vectors of each ENA Units within data
+an environment containing all relevant ENA accumulated model information to build 
+ENA set upon
 }
 \description{
 For multimodal data, this function creates the correct rENA accumulated model that can be used 
