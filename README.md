@@ -25,7 +25,7 @@ require(hoo)
 ## What's new
 
 *Version 3.4.5* (May 29, 2019):
-* Included argument `referenceMode` to customize what mode of data the reference line should be when calculating connections within a moving stanza window (defaults to include all modes of data). 
+* Included parameter `referenceMode` to customize what mode of data the reference line should be when calculating connections within a moving stanza window (defaults to include all modes of data). 
 
 *Version 3.4.4* (May 15, 2019): 
 * Fixed a wording issue in `hoo.ena.accumulate.data()` help document. 
