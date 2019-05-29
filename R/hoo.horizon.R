@@ -12,6 +12,8 @@
 #' @param usersCol          Name of the column entailing the unique user tracking info
 #' @param windowSize        Size of the moving stanza window, for looking backwards (for whole
 #' conversation, input 1)
+#' @param referenceMode     Modes of data that the reference line should be (default to all modes 
+#' of data as in no restriction on the reference line)
 #' @return     a data frame containing the adjacency vectors of each ENA Units within data
 #' @export
 #' @examples
@@ -27,9 +29,15 @@
 hoo.horizon = function(data, Units, Conversation, Codes,
                        dataModeCol, modeObserve,
                        usersCol,
-                       windowSize)
+                       windowSize, 
+                       referenceMode = unique(data[[dataModeCol]]))
 {
   data = as.data.frame(data)
+  
+  if (all(referenceMode %in% unique(data[[dataModeCol]])) == F) {
+    stop("ERROR: referenceMode does not exist in the dataModeCol. Check your spelling if needed.")
+  }
+  
   if (all(Units %in% colnames(data)) == T) {
     if (length(Units) == 1) {
       data$enaunits = data[, Units]
@@ -75,40 +83,45 @@ hoo.horizon = function(data, Units, Conversation, Codes,
     if (length(rowsWithinConversation) != 0) {
       dataConvSubset = dataSubset[rowsWithinConversation, ]
       dataConvSubset$rowid = seq_len(nrow(dataConvSubset))
-      adjDFWithinOneConv = data.frame(matrix(nrow = nrow(dataConvSubset), ncol = choose(n = length(Codes), k = 2) + 1))
+      adjDFWithinOneConv = data.frame(matrix(nrow = nrow(dataConvSubset), 
+                                             ncol = choose(n = length(Codes), k = 2) + 1))
       adjDFWithinOneConv[, 1] = dataConvSubset[, "enaunits"]
       for (i in seq_len(nrow(dataConvSubset))) {
-        # Obtain the correct stanza window for adj vector calculation
-        person = dataConvSubset[i, usersCol]
-        rowsSubset = dataConvSubset[dataConvSubset[[usersCol]] == person | dataConvSubset[[dataModeCol]] %in% modeObserve, ]
-        currentLine = which(rowsSubset$rowid == i)
-        window = windowSize
-        while (currentLine - window < 0) {
-          window = window - 1
-        }
-        startRow = currentLine - window + 1
-        endRow = currentLine
-        adjSubset = rowsSubset[startRow:endRow, 5:ncol(rowsSubset)]
-        # Calculate the cross product including this row
-        currentRowColSums = as.vector(colSums(adjSubset))
-        currentRowCrossProd = as.matrix(tcrossprod(currentRowColSums))
-        currentRowConnections = currentRowCrossProd[col(currentRowCrossProd) - row(currentRowCrossProd) > 0]
-        # Calculate the cross product excluding this row
-        if (windowSize != 1) {
-          if (nrow(adjSubset) - 1 != 0) {
-            endRowPrev = nrow(adjSubset) - 1
-            previousRowColSums = as.vector(colSums(adjSubset[1:endRowPrev, ]))
-            previousRowCrossProd = as.matrix(tcrossprod(previousRowColSums))
-            previousRowConnections = previousRowCrossProd[col(previousRowCrossProd) - row(previousRowCrossProd) > 0]
+        if (dataConvSubset[i, dataModeCol] %in% referenceMode) {
+          # Obtain the correct stanza window for adj vector calculation
+          person = dataConvSubset[i, usersCol]
+          rowsSubset = dataConvSubset[dataConvSubset[[usersCol]] == person | dataConvSubset[[dataModeCol]] %in% modeObserve, ]
+          currentLine = which(rowsSubset$rowid == i)
+          window = windowSize
+          while (currentLine - window < 0) {
+            window = window - 1
+          }
+          startRow = currentLine - window + 1
+          endRow = currentLine
+          adjSubset = rowsSubset[startRow:endRow, 5:ncol(rowsSubset)]
+          # Calculate the cross product including this row
+          currentRowColSums = as.vector(colSums(adjSubset))
+          currentRowCrossProd = as.matrix(tcrossprod(currentRowColSums))
+          currentRowConnections = currentRowCrossProd[col(currentRowCrossProd) - row(currentRowCrossProd) > 0]
+          # Calculate the cross product excluding this row
+          if (windowSize != 1) {
+            if (nrow(adjSubset) - 1 != 0) {
+              endRowPrev = nrow(adjSubset) - 1
+              previousRowColSums = as.vector(colSums(adjSubset[1:endRowPrev, ]))
+              previousRowCrossProd = as.matrix(tcrossprod(previousRowColSums))
+              previousRowConnections = previousRowCrossProd[col(previousRowCrossProd) - row(previousRowCrossProd) > 0]
+            } else {
+              previousRowConnections = vector(mode = "numeric", length = choose(n = length(Codes), k = 2))
+            }
           } else {
             previousRowConnections = vector(mode = "numeric", length = choose(n = length(Codes), k = 2))
           }
+          # Calculate the adj vector of this row, and assign it to the data frame that stores adj vectors
+          adjVector = currentRowConnections - previousRowConnections
+          adjDFWithinOneConv[i, 2:(choose(n = length(Codes), k = 2) + 1)] = adjVector
         } else {
-          previousRowConnections = vector(mode = "numeric", length = choose(n = length(Codes), k = 2))
+          adjDFWithinOneConv[i, 2:(choose(n = length(Codes), k = 2) + 1)] = 0
         }
-        # Calculate the adj vector of this row, and assign it to the data frame that stores adj vectors
-        adjVector = currentRowConnections - previousRowConnections
-        adjDFWithinOneConv[i, 2:(choose(n = length(Codes), k = 2) + 1)] = adjVector
       }
       adjDF = rbind(adjDF, adjDFWithinOneConv)
     }

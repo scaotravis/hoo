@@ -14,6 +14,9 @@
 #' conversation, input 1)
 #' @param useDT             Boolean parameter on whether to call hoo.horizon.DT() instead of 
 #' hoo.horizon(). Default to FALSE
+#' @param referenceMode     Modes of data that the reference line should be (default to all modes 
+#' of data as in no restriction on the reference line). Note: if referenceMode differs from its 
+#' default value, then useDT will automatically be reverted to FALSE
 #' @param ...               Additional arguments to pass along to rENA ena.accumulate.data method
 #' @return     an environment containing all relevant ENA accumulated model information to build 
 #' ENA set upon
@@ -32,19 +35,24 @@ hoo.ena.accumulate.data = function(data, Units, Conversation, Codes,
                                    dataModeCol, modeObserve,
                                    usersCol,
                                    windowSize, 
-                                   useDT = FALSE, ...)
+                                   useDT = FALSE, 
+                                   referenceMode = unique(data[[dataModeCol]]), ...)
 {
   data = as.data.frame(data)
   ena_accum = rENA::ena.accumulate.data(units = data.frame(data[, Units]),
                                         conversation = data.frame(data[, Conversation]),
                                         codes = data.frame(data[, Codes]),
                                         window.size.back = windowSize, ...)
+  if (all(referenceMode == unique(data[[dataModeCol]])) == F) {
+    useDT = F
+  }
   if (useDT == F) {
     hoo_adj = hoo.horizon(data = data,
                           Units = Units, Conversation = Conversation, Codes = Codes,
                           dataModeCol = dataModeCol, modeObserve = modeObserve,
                           usersCol = usersCol,
-                          windowSize = windowSize)
+                          windowSize = windowSize, 
+                          referenceMode = referenceMode)
   } else {
     hoo_adj = hoo.horizon.DT(data = data,
                              Units = Units, Conversation = Conversation, Codes = Codes,

@@ -5,7 +5,7 @@
 \title{Horizon of Observation Analysis for Multimodal Data}
 \usage{
 hoo.horizon(data, Units, Conversation, Codes, dataModeCol, modeObserve,
-  usersCol, windowSize)
+  usersCol, windowSize, referenceMode = unique(data[[dataModeCol]]))
 }
 \arguments{
 \item{data}{Multimodal data.frame or data.table}
@@ -25,6 +25,9 @@ analysis}
 
 \item{windowSize}{Size of the moving stanza window, for looking backwards (for whole
 conversation, input 1)}
+
+\item{referenceMode}{Modes of data that the reference line should be (default to all modes 
+of data as in no restriction on the reference line)}
 }
 \value{
 a data frame containing the adjacency vectors of each ENA Units within data

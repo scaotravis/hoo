@@ -5,7 +5,8 @@
 \title{Create rENA Accumulated Model based on Horizon of Observation Algorithm}
 \usage{
 hoo.ena.accumulate.data(data, Units, Conversation, Codes, dataModeCol,
-  modeObserve, usersCol, windowSize, useDT = FALSE, ...)
+  modeObserve, usersCol, windowSize, useDT = FALSE,
+  referenceMode = unique(data[[dataModeCol]]), ...)
 }
 \arguments{
 \item{data}{Multimodal data.frame or data.table}
@@ -28,6 +29,10 @@ conversation, input 1)}
 
 \item{useDT}{Boolean parameter on whether to call hoo.horizon.DT() instead of 
 hoo.horizon(). Default to FALSE}
+
+\item{referenceMode}{Modes of data that the reference line should be (default to all modes 
+of data as in no restriction on the reference line). Note: if referenceMode differs from its 
+default value, then useDT will automatically be reverted to FALSE}
 
 \item{...}{Additional arguments to pass along to rENA ena.accumulate.data method}
 }
