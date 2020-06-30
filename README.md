@@ -19,7 +19,7 @@ To install this repository in R as a package, run the following commands:
 ```{r}
 install.packages("devtools")
 devtools::install_github("scaotravis/hoo@v3.4.5")
-require(hoo)
+library(hoo)
 ```
 
 ## What's new
